@@ -9,12 +9,6 @@ import static com.codeborne.selenide.Selenide.*;
 class RegistrationTest {
 
     @Test
-    void shouldGenerateUser() {
-        User randomUser = CreateUser.generateNewUser("EN", true);
-        System.out.println(randomUser.getLogin() + " " + randomUser.getPassword() + " " + randomUser.getStatus());
-    }
-
-    @Test
     void shouldLoginIfUserActive() {
         User randomUser = CreateUser.generateNewUser("EN", true);
         open("http://localhost:9999");
