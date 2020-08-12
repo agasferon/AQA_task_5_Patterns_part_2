@@ -10,7 +10,7 @@ class RegistrationTest {
 
     @Test
     void shouldLoginIfUserActive() {
-        User randomUser = CreateUser.generateNewUser("EN", true);
+        User randomUser = CreateUser.generateNewUser("EN", "active");
         open("http://localhost:9999");
         $("[data-test-id=login] input").setValue(randomUser.getLogin());
         $("[data-test-id=password] input").setValue(randomUser.getPassword());
@@ -20,7 +20,7 @@ class RegistrationTest {
 
     @Test
     void shouldNotLoginIfUserBlocked() {
-        User randomUser = CreateUser.generateNewUser("EN", false);
+        User randomUser = CreateUser.generateNewUser("EN", "blocked");
         open("http://localhost:9999");
         $("[data-test-id=login] input").setValue(randomUser.getLogin());
         $("[data-test-id=password] input").setValue(randomUser.getPassword());
@@ -30,9 +30,9 @@ class RegistrationTest {
 
     @Test
     void shouldNotLoginIfUserInvalid() {
-        User randomUser = CreateUser.generateNewUser("EN", true);
+        User randomUser = CreateUser.generateNewUserWithInvalidLogin("EN", "active");
         open("http://localhost:9999");
-        $("[data-test-id=login] input").setValue("anyUsername");
+        $("[data-test-id=login] input").setValue(randomUser.getLogin());
         $("[data-test-id=password] input").setValue(randomUser.getPassword());
         $("[data-test-id=action-login]").click();
         $(withText("Неверно указан логин или пароль")).waitUntil(visible, 15000);
@@ -40,10 +40,10 @@ class RegistrationTest {
 
     @Test
     void shouldNotLoginIfPasswordInvalid() {
-        User randomUser = CreateUser.generateNewUser("EN", true);
+        User randomUser = CreateUser.generateNewUserWithInvalidPassword("EN", "active");
         open("http://localhost:9999");
         $("[data-test-id=login] input").setValue(randomUser.getLogin());
-        $("[data-test-id=password] input").setValue("123");
+        $("[data-test-id=password] input").setValue(randomUser.getPassword());
         $("[data-test-id=action-login]").click();
         $(withText("Неверно указан логин или пароль")).waitUntil(visible, 15000);
     }
